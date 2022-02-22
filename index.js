@@ -80,19 +80,29 @@ function renderResults(){
         searchResultsEl.className = "search-results-found"
         const resultsElements = results.map(result => {
             return `
-                <img src="${result.Poster}" class="film-poster" />
-                <div>
-                    <h3 class="film-title">${result.Title}</h3>
-                    <span class="film-rating">
-                        <img src="/icons/star-icon.svg">
-                        ${result.Ratings[0].Value.split("/")[0]}
-                    </span>
-                    <span class="film-duration">${result.Runtime}</span>
-                    <span class="film-genre">${result.Genre}</span>
-                    <button class="addToWatchlist" onclick="addToWatchlist()">
-                        <img src="/icons/plus-icon.svg">Watchlist
-                    </button>
-                    <p>${result.Plot}</p>
+                <div class="search-result">
+                    <img
+                        src="${result.Poster}"
+                        class="film-poster"
+                        onerror="this.onerror=null;this.src='/images/noPoster.jpg';"
+                    />
+                    <div>
+                        <div class="film-title">
+                            <h3>${result.Title}</h3>
+                            <span class="film-rating">
+                                <img src="/icons/star-icon.svg">
+                                ${result.Ratings[0].Value.split("/")[0]}
+                            </span>
+                        </div>
+                        <div class="film-info">
+                            <span class="film-duration">${result.Runtime}</span>
+                            <span class="film-genre">${result.Genre}</span>
+                            <button class="addToWatchlist" onclick="addToWatchlist()">
+                                <img src="/icons/plus-icon.svg">Watchlist
+                            </button>
+                        </div>
+                        <p class="film-plot">${result.Plot}</p>
+                    </div>
                 </div>
                 `
         })

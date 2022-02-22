@@ -136,3 +136,73 @@ main {
 .no-search img {
     max-width: 4.375rem;
 }
+
+.film-poster {
+    max-width: 6.25rem;
+    object-fit: contain;
+    margin-right: 1.3125rem;
+}
+
+.search-result{
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 1.2875rem;
+}
+
+.search-result + .search-result {
+    border-top: 1.5px solid #E5E7EB;
+    padding-top: 1.2875rem;
+}
+
+.film-title {
+    margin: 0.94rem 0 0.69rem;
+}
+
+ h3 {
+    display: inline;
+    font-weight: 500;
+    font-size: 1.125rem;
+}
+
+.film-rating {
+    color: #111827;
+    font-weight: 400;
+    font-size: 0.75rem;
+    margin-left: 0.25rem;
+}
+
+.film-info {
+    color: #111827;
+    font-weight: 400;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.film-info > * {
+    margin-right: 1rem;
+}
+
+.addToWatchlist {
+    font-size: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-right: .48rem;
+}
+
+.addToWatchlist img{
+    margin-right: 0.32rem;
+}
+
+.film-plot {
+    margin-top: 0.7rem;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #6B7280;
+}
