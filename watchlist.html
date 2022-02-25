@@ -18,9 +18,13 @@
         </nav>
     </header>
     <main>
-        <div class="no-search">
-            <span>Start exploring</span>
+        <div id="watchlist-movies" class="empty-watchlist">
+            <span>Your watchlist is looking a little empty...</span>
+            <button class="addToWatchlist" onclick="window.location.href='/index.html'">
+                <img src="/icons/plus-icon.svg">Let’s add some movies!
+            </button>
         </div>
     </main>
+    <script src="/watchlist.js"></script>
 </body>
 </html>

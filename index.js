@@ -1,9 +1,7 @@
-// const noSearch = document.querySelector('.no-search')
 const searchField = document.getElementById('search-field')
 const searchForm = document.getElementById('search-form')
 const searchResultsEl = document.getElementById('search-results')
 
-// noSearch.addEventListener("click", () => searchField.focus())
 searchForm.addEventListener("submit", searchFilm)
 
 let omdbApiSearchParams = {
@@ -21,6 +19,7 @@ let omdbApiDetailsParams = {
 }
 
 let results = []
+let watchlist = JSON.parse(localStorage.getItem('watchlist'))
 
 function convertToQueryString(params){
     const qs = Object.keys(params)
@@ -42,43 +41,41 @@ function searchFilm(e){
     fetch(`http://www.omdbapi.com/?${qs}`)
         .then(res => res.json())
         .then(data => {
-            getFullResults(data)
+            getAllMovieDetails(data)
         })
     searchField.value = ""
 }
 
-function getFullResults(data){
-    getAllMovieDetails(data)
-    // .then(() => renderResults())
-    // console.log("hello22")
+function getAllMovieDetails(data){
+    if(!data.Error){
+        const urls = []
+        results = data.Search
+        results.forEach((result) => {
+            const thisDetailsParams = {
+            ...omdbApiDetailsParams,
+            i: result.imdbID
+            }
+            const qs = convertToQueryString(thisDetailsParams)
+            urls.push(`http://www.omdbapi.com/?${qs}`)
+        });
+        Promise.all(urls.map(url=>fetch(url))).then(responses =>
+            Promise.all(responses.map(res => res.json()))
+        ).then(allMovieDetails => {
+            results = allMovieDetails
+            renderResults()
+        })
+    } else {
+        renderResults()
+    }
     
 }
 
-function getAllMovieDetails(data){
-    const urls = []
-    results = data.Search
-    results.forEach((result) => {
-        const thisDetailsParams = {
-        ...omdbApiDetailsParams,
-        i: result.imdbID
-        }
-        const qs = convertToQueryString(thisDetailsParams)
-        urls.push(`http://www.omdbapi.com/?${qs}`)
-    });
-    Promise.all(urls.map(url=>fetch(url))).then(responses =>
-        Promise.all(responses.map(res => res.json()))
-    ).then(allMovieDetails => {
-        results = allMovieDetails
-        renderResults()
-    })
-}
-
 function renderResults(){
-    console.log("hello22")
     if(results.length){
-        console.log(results[0])
         searchResultsEl.className = "search-results-found"
         const resultsElements = results.map(result => {
+            const rating = result.Ratings.length ?
+            result.Ratings[0].Value.split("/")[0] : "N/A"
             return `
                 <div class="search-result">
                     <img
@@ -91,13 +88,13 @@ function renderResults(){
                             <h3>${result.Title}</h3>
                             <span class="film-rating">
                                 <img src="/icons/star-icon.svg">
-                                ${result.Ratings[0].Value.split("/")[0]}
+                                ${rating}
                             </span>
                         </div>
                         <div class="film-info">
                             <span class="film-duration">${result.Runtime}</span>
                             <span class="film-genre">${result.Genre}</span>
-                            <button class="addToWatchlist" onclick="addToWatchlist()">
+                            <button class="addToWatchlist" onclick="addToWatchlist('${result.imdbID}')">
                                 <img src="/icons/plus-icon.svg">Watchlist
                             </button>
                         </div>
@@ -107,9 +104,20 @@ function renderResults(){
                 `
         })
         searchResultsEl.innerHTML = resultsElements.join("")
+    } else {
+        searchResultsEl.className = "search-results-not-found"
+        searchResultsEl.innerHTML = `
+                <span>
+                    Unable to find what you’re looking for.
+                    Please try another search.
+                </span>
+            `
     }
 }
 
-function addToWatchlist(){
-    console.log("clicked!")
+function addToWatchlist(id){
+    const currentMovie = results.find(movie => movie.imdbID === id)
+    watchlist.push(currentMovie)
+    localStorage.setItem('watchlist', JSON.stringify(watchlist));
+    console.log(localStorage.getItem('watchlist'))
 }
