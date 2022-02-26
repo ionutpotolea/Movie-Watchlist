@@ -19,7 +19,10 @@ let omdbApiDetailsParams = {
 }
 
 let results = []
-let watchlist = JSON.parse(localStorage.getItem('watchlist'))
+let watchlist = []
+if (localStorage.getItem('watchlist')){
+    watchlist = JSON.parse(localStorage.getItem('watchlist'))
+}
 
 function convertToQueryString(params){
     const qs = Object.keys(params)
@@ -98,7 +101,7 @@ function renderResults(){
                                 <img src="/icons/plus-icon.svg">Watchlist
                             </button>
                         </div>
-                        <p class="film-plot">${result.Plot}</p>
+                        <p class="film-plot">${limitText(result.Plot)}</p>
                     </div>
                 </div>
                 `
@@ -119,5 +122,24 @@ function addToWatchlist(id){
     const currentMovie = results.find(movie => movie.imdbID === id)
     watchlist.push(currentMovie)
     localStorage.setItem('watchlist', JSON.stringify(watchlist));
-    console.log(localStorage.getItem('watchlist'))
+}
+
+function limitText(text){
+    if (text.length <= 132){
+        return text
+    } else if (text.length === 133 && text.substring(132) === ".") {
+        return text
+    } else {
+        return `
+            <span class="short-plot">${text.substring(0, 132)}...</span>
+            <span class="long-plot hidden">${text}</span>
+            <button onclick="showFullText(this)">Read More</button>
+            `
+    }
+}
+
+function showFullText(button){
+    button.parentElement.children[0].classList.toggle('hidden')
+    button.parentElement.children[1].classList.toggle('hidden')
+    button.style.display = "none"
 }

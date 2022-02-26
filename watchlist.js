@@ -1,16 +1,13 @@
-console.log("working")
 const watchlistMovies = document.getElementById('watchlist-movies')
 
-
-let watchlist = JSON.parse(localStorage.getItem("watchlist"))
-console.log(watchlist)
-
+let watchlist = []
+if (localStorage.getItem("watchlist")){
+    watchlist = JSON.parse(localStorage.getItem("watchlist"))
+}
 renderResults()
-
 
 function renderResults(){
     if(watchlist.length){
-        console.log(watchlistMovies)
         watchlistMovies.className = "watchlist-movies-found"
         const watchlistElements = watchlist.map(result => {
             const rating = result.Ratings.length ?
@@ -33,8 +30,8 @@ function renderResults(){
                         <div class="film-info">
                             <span class="film-duration">${result.Runtime}</span>
                             <span class="film-genre">${result.Genre}</span>
-                            <button class="addToWatchlist" onclick="addToWatchlist('${result.imdbID}')">
-                                <img src="/icons/plus-icon.svg">Watchlist
+                            <button class="addToWatchlist" onclick="removeFromWatchlist('${result.imdbID}')">
+                                <img src="/icons/minus-icon.svg">Remove
                             </button>
                         </div>
                         <p class="film-plot">${result.Plot}</p>
@@ -52,4 +49,11 @@ function renderResults(){
                 </button>
             `
     }
+}
+
+function removeFromWatchlist(id){
+    const currentMovieIndex = watchlist.findIndex(movie => movie.imdbID === id)
+    watchlist.splice(currentMovieIndex, 1)
+    localStorage.setItem('watchlist', JSON.stringify(watchlist));
+    renderResults()
 }
