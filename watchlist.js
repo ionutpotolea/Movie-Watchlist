@@ -17,13 +17,13 @@ function renderResults(){
                     <img
                         src="${result.Poster}"
                         class="film-poster"
-                        onerror="this.onerror=null;this.src='/images/noPoster.jpg';"
+                        onerror="this.onerror=null;this.src='images/noPoster.jpg';"
                     />
                     <div>
                         <div class="film-title">
                             <h3>${result.Title}</h3>
                             <span class="film-rating">
-                                <img src="/icons/star-icon.svg">
+                                <img src="icons/star-icon.svg">
                                 ${rating}
                             </span>
                         </div>
@@ -31,7 +31,7 @@ function renderResults(){
                             <span class="film-duration">${result.Runtime}</span>
                             <span class="film-genre">${result.Genre}</span>
                             <button class="addToWatchlist" onclick="removeFromWatchlist('${result.imdbID}')">
-                                <img src="/icons/minus-icon.svg">Remove
+                                <img src="icons/minus-icon.svg">Remove
                             </button>
                         </div>
                         <p class="film-plot">${result.Plot}</p>
@@ -45,7 +45,7 @@ function renderResults(){
         watchlistMovies.innerHTML = `
                 <span>Your watchlist is looking a little empty...</span>
                 <button class="addToWatchlist" onclick="window.location.href='/index.html'">
-                    <img src="/icons/plus-icon.svg">Let’s add some movies!
+                    <img src="icons/plus-icon.svg">Let’s add some movies!
                 </button>
             `
     }
