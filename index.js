@@ -41,7 +41,7 @@ function searchFilm(e){
 
     const qs = convertToQueryString(omdbApiSearchParams)
 
-    fetch(`http://www.omdbapi.com/?${qs}`)
+    fetch(`https://www.omdbapi.com/?${qs}`)
         .then(res => res.json())
         .then(data => {
             getAllMovieDetails(data)
@@ -59,7 +59,7 @@ function getAllMovieDetails(data){
             i: result.imdbID
             }
             const qs = convertToQueryString(thisDetailsParams)
-            urls.push(`http://www.omdbapi.com/?${qs}`)
+            urls.push(`https://www.omdbapi.com/?${qs}`)
         });
         Promise.all(urls.map(url=>fetch(url))).then(responses =>
             Promise.all(responses.map(res => res.json()))
