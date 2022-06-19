@@ -131,7 +131,7 @@ main {
 }
 
 .no-search {
-    background-image: url(/icons/movie-icon.svg);
+    background-image: url('icons/movie-icon.svg');
     background-repeat: no-repeat;
     background-position: center;
 }
