@@ -44,7 +44,7 @@ function renderResults(){
         watchlistMovies.className = "empty-watchlist"
         watchlistMovies.innerHTML = `
                 <span>Your watchlist is looking a little empty...</span>
-                <button class="addToWatchlist" onclick="window.location.href='/index.html'">
+                <button class="addToWatchlist" onclick="window.location.href='index.html'">
                     <img src="icons/plus-icon.svg">Let’s add some movies!
                 </button>
             `
